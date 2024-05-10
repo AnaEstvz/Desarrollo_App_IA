@@ -7,16 +7,16 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            background-color: #e6f5e6; /* Fondo verde más suave */
             margin: 0;
             padding: 0;
         }
 
         .container {
             max-width: 600px;
-            margin: 0 auto;
+            margin: 50px auto; /* Centrar verticalmente */
             padding: 20px;
-            background-color: #e6f5e6; /* verde más suave */
+            background-color: #fff; /* Fondo blanco */
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
@@ -42,23 +42,40 @@
         input[type="submit"] {
             width: 100%;
             padding: 10px;
-            background-color: #4CAF50; /* verde palo */
+            background-color: #4CAF50; /* Verde palo */
             color: #fff;
             border: none;
             border-radius: 4px;
             cursor: pointer;
+            display: block; /* Hacer que el botón ocupe todo el ancho */
         }
 
         input[type="submit"]:hover {
-            background-color: #45a049; /* tono más oscuro al pasar el ratón */
+            background-color: #45a049; /* Tono más oscuro al pasar el ratón */
         }
 
         .respuesta {
-            background-color: #d9fad9; /* verde claro para la respuesta */
+            background-color: #d9fad9; /* Verde claro para la respuesta */
             border: 1px solid #ccc;
             border-radius: 4px;
             padding: 10px;
             margin-top: 20px;
+        }
+
+        #guardar-btn {
+            display: block; /* Hacer que el botón ocupe todo el ancho */
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50; /* Verde palo */
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 20px; /* Espacio superior */
+        }
+
+        #guardar-btn:hover {
+            background-color: #45a049; /* Tono más oscuro al pasar el ratón */
         }
     </style>
 </head>
