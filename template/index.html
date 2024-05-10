@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recomendador de Rutas de Senderismo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #e6f5e6; /* verde más suave */
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50; /* verde palo */
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049; /* tono más oscuro al pasar el ratón */
+        }
+
+        .respuesta {
+            background-color: #d9fad9; /* verde claro para la respuesta */
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 10px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Bienvenido al Recomendador de Rutas de Senderismo</h1>
+        <p>Por favor, introduzca la zona donde desea hacer senderismo:</p>
+        <form id="recomendacion-form">
+            <input type="text" name="zona" placeholder="Introduzca la zona">
+            <input type="submit" value="Enviar">
+        </form>
+        <div class="respuesta" id="respuesta-container">
+            <!-- Aquí se mostrará la respuesta -->
+        </div>
+        <button id="guardar-btn">Guardar Recomendaciones</button>
+    </div>
+
+    <script>
+        let respuestaGenerada = ""; // Variable para almacenar la respuesta generada
+    
+        document.getElementById("recomendacion-form").addEventListener("submit", async (event) => {
+            event.preventDefault(); // Evita el comportamiento de envío predeterminado del formulario
+    
+            const zona = document.querySelector("input[name='zona']").value;
+    
+            const response = await fetch(`/recomendacion?zona=${zona}`, {
+                method: "GET"
+            });
+    
+            respuestaGenerada = await response.text(); // Almacena la respuesta generada
+            document.getElementById("respuesta-container").innerHTML = respuestaGenerada;
+        });
+    
+        document.getElementById("guardar-btn").addEventListener("click", async () => {
+            const prompt_usuario = document.querySelector("input[name='zona']").value;
+            
+            const data = {
+                "prompt_usuario": prompt_usuario,
+                "respuesta": respuestaGenerada // Usa la respuesta generada almacenada
+            };
+            
+            const response = await fetch("/guardar", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            });
+            
+            const responseData = await response.json();
+            alert(responseData.mensaje); // Muestra un mensaje de alerta con la respuesta del servidor
+        });
+    </script>
+</body>
+</html>
+
+
+
