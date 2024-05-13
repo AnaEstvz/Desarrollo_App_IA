@@ -8,7 +8,7 @@ En este proyecto final del módulo de Data Engineering, hemos desarrollado una a
 
 - Desarrollar una aplicación web utilizando Python y FastAPI que permita a los usuarios interactuar con modelos de lenguaje.
 - Integrar LLMs (ChatGPT, HuggingFace, etc.) para acceder a modelos pre-entrenados y realizar inferencias sobre texto, utilizando la funcionalidad de Langchain para mejorar la calidad de las respuestas generadas por el modelo.
-- Implementar un sistema de registro en una base de datos desplegada en AWS para almacenar un histórico de las interacciones de los usuarios.
+- Implementar un sistema de registro en una base de datos desplegada en Render para almacenar un histórico de las interacciones de los usuarios.
 - Dockerizar la aplicación para facilitar su despliegue y escalabilidad, así como subir todos los recursos a DockerHub y Github.
 
 ## Requisitos Técnicos:
