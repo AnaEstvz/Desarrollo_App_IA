@@ -60,3 +60,29 @@ La aplicación se encuentra desplegada en Render, un servicio de alojamiento en 
 
 Con estos pasos, logramos desplegar nuestra aplicación en Render y utilizar OpenAI para proporcionar respuestas generadas por un modelo de lenguaje avanzado como GPT-3. Esto nos permite ofrecer una experiencia de usuario mejorada y respuestas más relevantes y coherentes a las consultas de los usuarios.
 
+
+## Uso de la Aplicación
+
+Para utilizar esta aplicación, necesitarás lo siguiente:
+
+- Una API Key de OpenAI para acceder a la API de generación de lenguaje.
+- Una URL de base de datos en Render para almacenar el registro de interacciones de los usuarios.
+
+### Clona el Repositorio:
+git clone https://github.com/AnaEstvz/Desarrollo_App_IA.git
+
+### Configura las Variables de Entorno:
+Crea un archivo .env en el directorio raíz del proyecto y define las siguientes variables de entorno:
+
+- OPENAI_API_KEY=your_openai_api_key
+- DATABASE_URL=your_render_database_ur
+
+### Construye la Imagen de Docker:
+
+docker build -t nombre_imagen 
+
+### Ejecuta el Contenedor Docker:
+docker run -d -p 8000:8000 nombre_image
+
+### Accede a la Aplicación:
+Abre un navegador web y visita http://localhost:8000 para acceder a la aplicación.
