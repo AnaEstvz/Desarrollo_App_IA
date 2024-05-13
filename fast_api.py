@@ -3,7 +3,10 @@ import pickle
 import uvicorn
 import sqlite3
 import pandas as pd
-from cred import openai_key
+from cred import openai_key, DATABASE_URL
+import asyncpg
+
+from fastapi import BackgroundTasks
 
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import PromptTemplate
@@ -38,23 +41,36 @@ async def recomendacion(zona: str):
     return HTMLResponse(content=respuesta.content)
 
 
+#DATABASE_URL = "postgres://proyecto_f_d_user:lQyrT4FAyJWSMBLK0nSWRus48ri4z6Ii@dpg-cntusvicn0vc739ectl0-a.frankfurt-postgres.render.com/proyecto_f_d"
+
+
 @app.post('/guardar')
-async def guardar_respuesta(data:dict):
+async def guardar_respuesta(data:dict, background_tasks: BackgroundTasks):
     prompt_usuario = data.get("prompt_usuario")
     respuesta = data.get("respuesta")
 
-    conn = sqlite3.connect("recomendacion.db")
-    cursor = conn.cursor()
-    
-    cursor.execute('''CREATE TABLE IF NOT EXISTS respuestas
-                 (id INTEGER PRIMARY KEY AUTOINCREMENT, prompt_usuario TEXT, respuesta TEXT)''')
+    try:
+        async with asyncpg.create_pool(DATABASE_URL) as pool:
+            async with pool.acquire() as connection:
+                await connection.execute(
+                    """
+                    CREATE TABLE IF NOT EXISTS respuestas (
+                        id SERIAL PRIMARY KEY,
+                        prompt_usuario TEXT,
+                        respuesta TEXT
+                    )
+                    """
+                )
 
-    cursor.execute("INSERT INTO respuestas (prompt_usuario,respuesta) VALUES (?, ?)", (prompt_usuario, respuesta))
-
-    conn.commit()
-    conn.close()
+                await connection.execute(
+                    "INSERT INTO respuestas (prompt_usuario, respuesta) VALUES ($1, $2)",
+                    prompt_usuario, respuesta
+                )
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error al guardar datos en la base de datos: {e}")
 
     return {"mensaje": "Recomendaciones guardadas con éxito"}
+
 
 
 if __name__ == "__main__":
